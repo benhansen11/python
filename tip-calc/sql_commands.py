@@ -131,7 +131,7 @@ def orders():
                     totalPrice TEXT
                     )
     ''') 
-    cur.execute('''INSERT INTO orders (orderName, totalFood, totalPrice) VALUES ('Ben Hansen', 'Cheeseburger + Loaded Fries', '$11')''')
+    #cur.execute('''INSERT INTO orders (orderName, totalFood, totalPrice) VALUES ('Ben Hansen', 'Cheeseburger + Loaded Fries', '$11')''')
     
 
     cur.execute("SELECT * FROM orders;")

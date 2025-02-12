@@ -5,7 +5,42 @@ from functions import *
 order_name = ""
 order_food = ""
 food = ""
-prince = ""
+price = ""
+
+
+def burger_toppings():
+    global food
+    global order_name
+    choices = []
+    while True:
+        print("------------------------------------")
+        print("-----Burger Topping-----")
+        print("0. Back to Menu")
+        for x in enumerate(burger_top()):
+                print(f"{x[0]+1}. {x[1][0]}")
+        inp = int(input("What would you like on your Cheseburger?: "))
+        if inp == 0:
+            break
+        else:
+            choices.append(inp)
+            result = [int(digit) for digit in str(choices[0])]
+            print("You have chosen the following toppings: ")
+            print("-----------")
+            for x in result:
+                print(f"{burger_top()[x-1][0]}")
+            print("-----------")
+            inpt = str(input("Would you like to change your toppings? (y/n): "))
+            if inpt.lower() == "y":
+                choices.clear()
+                burger_toppings()
+            elif inpt.lower() == "n":
+                print("---------------------------")
+                print("Your order has been placed!")
+                print("---------------------------")
+                insert_order(order_name, food, '', '', price)
+            break
+        
+    return
 
 def pizza_toppings_choice():
     global order_food
@@ -39,13 +74,38 @@ def pizza_toppings_choice():
                     print("---------------------------")
                     print("Your order has been placed!")
                     print("---------------------------")
-                    insert_order(order_name, food, price)
+                    insert_order(order_name, food, '', '', price)
                 break
         
     return
 
+def view_or_change_order():
+    conn = sqlite3.connect('food.db')
+    cur = conn.cursor()
+    cur.execute("Pragma foreign_keys = ON;")
+    query = '''SELECT (orderName AS "Order", totalFood AS "Food Items", pizzaTop As "Pizza Toppings", burgerTop AS "Burger Toppings", totalPrice AS "Price") FROM orders
+                WHERE pizzaTop IS NOT NULL AND burgerTop IS NOT NULL;'''
+    while True:
+        print("------------------------------")
+        print("-----View/Change Order-----")
+        print("------------------------------")
+        inp = int(input("If you would like to view or change your order, press 1, if you are finished and would like to checkout, press 2: "))
+        if inp == 1:
+            print("Your order is as follows: ")
+            print("---------------------------")
+            
+                        
+    cur.execute(query)
+    
+    rows = cur.fetchall()
+    conn.commit()
+    conn.close()
+    return rows
+
 
 def menu():
+
+
     global order_name
     global order_food
     global food
@@ -89,7 +149,9 @@ def menu():
             pizza_toppings_choice()
         elif choice == "4": 
             food = "Cheeseburger"
+            price = "$8"
             print("You chose Cheeseburger!")
+            burger_toppings()
         elif choice == "5":
             print("You chose Loaded Fries!")
         elif choice == "6":
@@ -97,11 +159,11 @@ def menu():
         else:
             print("Invalid choice!")
             continue
-        
-        
 
+        
+        
 
 
 menu()
-
-
+#burger_top()    
+#orders()

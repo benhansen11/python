@@ -80,7 +80,7 @@ def food_items():
                         ('Small Pizza', '$6'), 
                         ('Medium Pizza', '$8'), 
                         ('Large Pizza', '$10'),
-                        ('Cheeseburger', '$5'),
+                        ('Cheeseburger', '$8'),
                         ('Loaded Fries', '$6'),
                         ('Club Sandwich', '$10');''')
 
@@ -128,6 +128,8 @@ def orders():
                     (orderID INTEGER PRIMARY KEY AUTOINCREMENT,
                     orderName TEXT,
                     totalFood TEXT,
+                    pizzaTop TEXT, 
+                    burgerTop TEXT,
                     totalPrice TEXT
                     )
     ''') 
@@ -140,13 +142,48 @@ def orders():
     conn.close()
     return rows 
 
-def insert_order(orderName, totalFood, totalPrice):
+def insert_order(orderName, totalFood, burgerTop, pizzaTop, totalPrice):
     conn = sqlite3.connect('food.db')
     cur = conn.cursor()
     cur.execute("Pragma foreign_keys = ON;")
-    cur.execute('''INSERT INTO orders (orderName, totalFood, totalPrice) VALUES ((?), (?), (?))''', (orderName, totalFood, totalPrice,))
+    cur.execute('''INSERT INTO orders (orderName, totalFood, burgerTop, pizzaTop, totalPrice) VALUES ((?), (?), (?), (?), (?))''', (orderName, totalFood, burgerTop, pizzaTop, totalPrice,))
     conn.commit()
     conn.close()
     return 
 
-                    
+def burger_top():
+    conn = sqlite3.connect('food.db')
+    cur = conn.cursor()
+    cur.execute("Pragma foreign_keys = ON;")
+    cur.execute('''DROP TABLE IF EXISTS burger;''')
+    cur.execute('''CREATE TABLE burger (
+                    toppingName TEXT PEIMARY KEY               
+    ) 
+                ''')       
+    cur.execute('''INSERT INTO burger (toppingName) VALUES 
+                                                ('Ketchup'),
+                                                ('Mustard'),
+                                                ('Mayo'), 
+                                                ('Pickels'),
+                                                ('Lettuce'),
+                                                ('Tomato'),
+                                                ('Onion')
+                                                ''')
+    
+    cur.execute("SELECT * FROM burger;")
+    rows = cur.fetchall()
+    conn.commit()
+    conn.close()
+    return rows
+
+def show_order(orderID):
+    conn = sqlite3.connect('food.db')
+    cur = conn.cursor()
+    cur.execute("Pragma foreign_keys = ON;")
+    cur.execute("SELECT  FROM orders;")
+    rows = cur.fetchall()
+    for row in rows:
+        print(row)
+    conn.commit()
+    conn.close()
+    return rows

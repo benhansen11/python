@@ -11,6 +11,8 @@ price = ""
 def burger_toppings():
     global food
     global order_name
+    user_food = []
+    user_price = ""
     choices = []
     while True:
         print("------------------------------------")
@@ -28,6 +30,8 @@ def burger_toppings():
             print("-----------")
             for x in result:
                 print(f"{burger_top()[x-1][0]}")
+                user_food.append(burger_top()[x-1][0])
+            print(user_food)
             print("-----------")
             inpt = str(input("Would you like to change your toppings? (y/n): "))
             if inpt.lower() == "y":
@@ -37,7 +41,10 @@ def burger_toppings():
                 print("---------------------------")
                 print("Your order has been placed!")
                 print("---------------------------")
-                insert_order(order_name, food, '', '', price)
+                #user_food = burger_top()[x-1][0]
+                #user_price = burger_top()[x-1][1]
+                #print(f"Your order is: {user_food} - {user_price}")
+                #insert_order(order_name, food, '', '', price)
             break
         
     return
@@ -74,49 +81,36 @@ def pizza_toppings_choice():
                     print("---------------------------")
                     print("Your order has been placed!")
                     print("---------------------------")
-                    insert_order(order_name, food, '', '', price)
+                    #insert_order(order_name, food, '', '', price)
                 break
         
     return
 
+
 def view_or_change_order():
-    conn = sqlite3.connect('food.db')
-    cur = conn.cursor()
-    cur.execute("Pragma foreign_keys = ON;")
-    query = '''SELECT (orderName AS "Order", totalFood AS "Food Items", pizzaTop As "Pizza Toppings", burgerTop AS "Burger Toppings", totalPrice AS "Price") FROM orders
-                WHERE pizzaTop IS NOT NULL AND burgerTop IS NOT NULL;'''
     while True:
-        print("------------------------------")
+
         print("-----View/Change Order-----")
-        print("------------------------------")
+        print("---------------------------")
         inp = int(input("If you would like to view or change your order, press 1, if you are finished and would like to checkout, press 2: "))
         if inp == 1:
             print("Your order is as follows: ")
             print("---------------------------")
+            print(f"Order Name: {order_name}")
+            print(f"Food: {food}")
+            print(f"Price: {price}")
+            inpt = str(input("Would you like to change your order? (y/n): "))
+            if inpt.lower() == "y": 
+                menu()
             
-                        
-    cur.execute(query)
-    
-    rows = cur.fetchall()
-    conn.commit()
-    conn.close()
-    return rows
 
-
-def menu():
-
-
+        
+def menu(): 
     global order_name
     global order_food
     global food
     global price
     while True:
-        print("-----------------------------------")
-        print("-----Welcome to my Restaurant!-----")
-        print("-----------------------------------")
-        name = str(input("Please enter a name for the order: "))
-        order_name += name
-        print(order_name)
         print("-----------------------------------")
         print("0. Exit")
         for x in enumerate(food_items()):
@@ -133,6 +127,7 @@ def menu():
             print("You chose a small Pizza!")
             print("----------------------------------")
             pizza_toppings_choice()
+            view_or_change_order()
         elif choice == "2":
             food = "Medium Pizza"
             price = "$8"
@@ -158,12 +153,23 @@ def menu():
             print("You chose a Club Sandwich")
         else:
             print("Invalid choice!")
-            continue
-
-        
-        
+            continue    
 
 
-menu()
+
+def main():
+    global order_name
+    global order_food
+    global food
+    global price
+    print("-----------------------------------")
+    print("-----Welcome to my Restaurant!-----")
+    print("-----------------------------------")
+    name = str(input("Please enter a name for the order: "))
+    order_name += name
+    menu()
+
+
+main()
 #burger_top()    
-#orders()
+orders()

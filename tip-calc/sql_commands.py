@@ -146,7 +146,7 @@ def insert_order(orderName, totalFood, burgerTop, pizzaTop, totalPrice):
     conn = sqlite3.connect('food.db')
     cur = conn.cursor()
     cur.execute("Pragma foreign_keys = ON;")
-    cur.execute('''INSERT INTO orders (orderName, totalFood, burgerTop, pizzaTop, totalPrice) VALUES ((?), (?), (?), (?), (?))''', (orderName, totalFood, burgerTop, pizzaTop, totalPrice,))
+    cur.execute('''INSERT INTO orders (orderName, totalFood, burgerTop, pizzaTop, totalPrice) VALUES ((?), (?), (?), (?), (?)) ''', (orderName, totalFood, burgerTop, pizzaTop, totalPrice,))
     conn.commit()
     conn.close()
     return 
@@ -184,6 +184,28 @@ def show_order(orderID):
     rows = cur.fetchall()
     for row in rows:
         print(row)
+    conn.commit()
+    conn.close()
+    return rows
+
+def fetch_orderID(id):
+    conn = sqlite3.connect('food.db')
+    cur = conn.cursor()
+    cur.execute("Pragma foreign_keys = ON;")
+    cur.execute("SELECT orderID FROM orders WHERE orderID = (?);", (id,))
+    rows = cur.fetchall()
+    conn.commit()
+    conn.close()
+    return rows
+
+def change_pizza():
+    conn = sqlite3.connect('food.db')
+    cur = conn.cursor()
+    cur.execute("Pragma foreign_keys = ON;")
+    cur.execute('''
+            ''')
+    cur.execute("SELECT * FROM pizza;")
+    rows = cur.fetchall()
     conn.commit()
     conn.close()
     return rows

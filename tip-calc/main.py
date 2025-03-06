@@ -11,7 +11,7 @@ price = ""
 def burger_toppings():
     global food
     global order_name
-    user_food = []
+    user_food_ = []
     user_price = ""
     choices = []
     while True:
@@ -26,12 +26,13 @@ def burger_toppings():
         else:
             choices.append(inp)
             result = [int(digit) for digit in str(choices[0])]
+            print(result)
             print("You have chosen the following toppings: ")
             print("-----------")
             for x in result:
                 print(f"{burger_top()[x-1][0]}")
-                user_food.append(burger_top()[x-1][0])
-            print(user_food)
+                user_food_.append(burger_top()[x-1][0])
+            result_ = ', '.join(user_food_)
             print("-----------")
             inpt = str(input("Would you like to change your toppings? (y/n): "))
             if inpt.lower() == "y":
@@ -41,16 +42,14 @@ def burger_toppings():
                 print("---------------------------")
                 print("Your order has been placed!")
                 print("---------------------------")
-                #user_food = burger_top()[x-1][0]
-                #user_price = burger_top()[x-1][1]
-                #print(f"Your order is: {user_food} - {user_price}")
-                #insert_order(order_name, food, '', '', price)
+                insert_order(order_name, food, result_, '', price)
             break
         
     return
 
 def pizza_toppings_choice():
     global order_food
+    user_food_ = []
     choices = []
     while True:
         print("-----Pizza Toppings-----")
@@ -72,16 +71,18 @@ def pizza_toppings_choice():
                 print("----------")
                 for x in result:
                     print(f"{pizza_toppings()[x-1][0]}")
+                    user_food_.append(pizza_toppings()[x-1][0])
+                result_ = ', '.join(user_food_)    
                 print("----------")   
                 inpt = str(input("Would you like to change your toppings? (y/n): "))
                 if inpt.lower() == "y":
                     choices.clear()
-                    pizza_toppings_choice()
+                    pizza_toppings_choice() 
                 elif inpt.lower() == "n":
                     print("---------------------------")
                     print("Your order has been placed!")
                     print("---------------------------")
-                    #insert_order(order_name, food, '', '', price)
+                    insert_order(order_name, food, '', result_, price)
                 break
         
     return
@@ -102,6 +103,17 @@ def view_or_change_order():
             inpt = str(input("Would you like to change your order? (y/n): "))
             if inpt.lower() == "y": 
                 menu()
+            elif inpt.lower() == "n":
+                break
+        elif inp == 2:
+            print("---------------------------")
+            print("Your order has been placed!")
+            print("---------------------------")
+            print(f"You ordered a {food}.")
+            print(f"You're order total is {price} dollars.")
+            print("Thank you for shopping with us today!")
+            print("---------------------------")
+            break
             
 
         
@@ -147,6 +159,7 @@ def menu():
             price = "$8"
             print("You chose Cheeseburger!")
             burger_toppings()
+            view_or_change_order()
         elif choice == "5":
             print("You chose Loaded Fries!")
         elif choice == "6":
@@ -168,8 +181,9 @@ def main():
     name = str(input("Please enter a name for the order: "))
     order_name += name
     menu()
+    
 
 
-main()
+#main()
 #burger_top()    
 orders()

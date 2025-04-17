@@ -211,12 +211,11 @@ def change_pizza():
     return rows
 
 
-def update_order(foodItem):
+def update_order(foodItem, order_name ):
     conn = sqlite3.connect('food.db')
     cur = conn.cursor()
     cur.execute("Pragma foreign_keys = ON;")
-    cur.execute('''UPDATE orders SET food_item = (?) WHERE orderID = 4 ;''', (foodItem, ))
+    cur.execute('''UPDATE orders SET totalFood = (?) WHERE orderName = (?);''', (foodItem, order_name, ))
     rows = cur.fetchall()
     conn.commit()
     conn.close()
-    return rows

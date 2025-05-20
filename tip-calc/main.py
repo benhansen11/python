@@ -6,6 +6,10 @@ order_name = ""
 order_food = ""
 food = ""
 price = ""
+food_update = ""
+user_food_ = []
+
+
 
 
 def burger_toppings():
@@ -49,7 +53,7 @@ def burger_toppings():
 
 def pizza_toppings_choice():
     global order_food
-    user_food_ = []
+    global user_food_
     choices = []
     while True:
         print("-----Pizza Toppings-----")
@@ -89,7 +93,8 @@ def pizza_toppings_choice():
 
 def pizza_toppings_choice_on_update():
     global order_food
-    user_food_ = []
+    global user_food_
+    global food_update
     choices = []
     while True:
         print("-----Pizza Toppings-----")
@@ -122,7 +127,8 @@ def pizza_toppings_choice_on_update():
                     print("---------------------------")
                     print("Your order has been placed!")
                     print("---------------------------")
-                    update_order("test", order_name)
+                    insert_order(order_name, food, '', result_, price)
+                    #update_order(food_update, order_name)
                 break
         
     return
@@ -132,7 +138,11 @@ def view_or_change_order():
     global order_name
     global order_food
     global food
+    global food_update
     global price
+    global user_food_
+
+    result_ = ', '.join(user_food_)
 
     while True:
         print("-----View/Change Order-----")
@@ -143,13 +153,15 @@ def view_or_change_order():
             print("---------------------------")
             print(f"Order Name: {order_name}")
             print(f"Food: {food}")
+            print(f"Toppings: {result_}")
             print(f"Price: {price}")
             inpt = str(input("Would you like to change your order? (y/n): "))
             if inpt.lower() == "y": 
                 menu_on_update()
-                update_order("test", order_name)
+                #update_order(food_update, order_name)
                 break
             elif inpt.lower() == "n":
+                print
                 break
         elif inp == 2:
             print("---------------------------")
@@ -220,7 +232,7 @@ def menu():
 def menu_on_update(): 
     global order_name
     global order_food
-    global food
+    global food_update
     global price
     while True:
         print("-----------------------------------")
@@ -233,7 +245,7 @@ def menu_on_update():
             print("You have exited the menu. Goodbye!")
             break
         if choice == "1":
-            food = "Small Pizza"
+            food_update = "Small Pizza"
             price = "$6"
             print("----------------------------------")
             print("You chose a small Pizza!")
@@ -241,7 +253,7 @@ def menu_on_update():
             pizza_toppings_choice_on_update()
             view_or_change_order()
         elif choice == "2":
-            food = "Medium Pizza"
+            food_update = "Medium Pizza"
             price = "$8"
             print("----------------------------------")
             print("You chose a Medium Pizza!")
@@ -249,14 +261,15 @@ def menu_on_update():
             pizza_toppings_choice_on_update()
             view_or_change_order()
         elif choice == "3":
-            food = "Large Pizza"
+            food_update = "Large Pizza"
             price = "$10"
             print("----------------------------------")
             print("You chose Large Pizza!")
             print("----------------------------------")
             pizza_toppings_choice()
+            view_or_change_order()
         elif choice == "4": 
-            food = "Cheeseburger"
+            food_update = "Cheeseburger"
             price = "$8"
             print("You chose Cheeseburger!")
             burger_toppings()

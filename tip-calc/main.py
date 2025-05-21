@@ -55,6 +55,7 @@ def pizza_toppings_choice():
     global order_food
     global user_food_
     choices = []
+    #result_ = ""
     while True:
         print("-----Pizza Toppings-----")
         print("0. Back to Menu")
@@ -75,8 +76,8 @@ def pizza_toppings_choice():
                 print("----------")
                 for x in result:
                     print(f"{pizza_toppings()[x-1][0]}")
-                    user_food_.append(pizza_toppings()[x-1][0])
-                result_ = ', '.join(user_food_)    
+                    #user_food_.append(pizza_toppings()[x-1][0])
+                #result_ = ', '.join(user_food_)    
                 print("----------")   
                 inpt = str(input("Would you like to change your toppings? (y/n): "))
                 if inpt.lower() == "y":
@@ -85,50 +86,12 @@ def pizza_toppings_choice():
                 elif inpt.lower() == "n":
                     print("---------------------------")
                     print("Your order has been placed!")
+                    for x in result:
+                        user_food_.append(pizza_toppings()[x-1][0])
+                    result_ = ', '.join(user_food_)
+                    print(result_)
                     print("---------------------------")
                     insert_order(order_name, food, '', result_, price)
-                break
-        
-    return
-
-def pizza_toppings_choice_on_update():
-    global order_food
-    global user_food_
-    global food_update
-    choices = []
-    while True:
-        print("-----Pizza Toppings-----")
-        print("0. Back to Menu")
-        for x in enumerate(pizza_toppings()):
-            print(f"{x[0]+1}. {x[1][0]} - {x[1][1]}")
-        choice = int(input("Please choose up to 3 toppings for your pizza using the numbers below or enter 0 to go back to the menu: "))
-        if len(str(choice)) > 3:
-            print("You can only choose up to 3 toppings. Please try again.")
-            pizza_toppings_choice()
-        else:
-            if choice == 0:
-                break
-            else:
-                choices.append(choice)
-                result = [int(digit) for digit in str(choices[0])]
-                #print(result)
-                print("You have chosen the following toppings: ")
-                print("----------")
-                for x in result:
-                    print(f"{pizza_toppings()[x-1][0]}")
-                    user_food_.append(pizza_toppings()[x-1][0])
-                result_ = ', '.join(user_food_)    
-                print("----------")   
-                inpt = str(input("Would you like to change your toppings? (y/n): "))
-                if inpt.lower() == "y":
-                    choices.clear()
-                    pizza_toppings_choice() 
-                elif inpt.lower() == "n":
-                    print("---------------------------")
-                    print("Your order has been placed!")
-                    print("---------------------------")
-                    insert_order(order_name, food, '', result_, price)
-                    #update_order(food_update, order_name)
                 break
         
     return
@@ -157,11 +120,12 @@ def view_or_change_order():
             print(f"Price: {price}")
             inpt = str(input("Would you like to change your order? (y/n): "))
             if inpt.lower() == "y": 
-                menu_on_update()
-                #update_order(food_update, order_name)
+                result_ = None
+                menu()
+                update_order(food, order_name, result_)
                 break
             elif inpt.lower() == "n":
-                print
+                print("")
                 break
         elif inp == 2:
             print("---------------------------")
@@ -198,6 +162,7 @@ def menu():
             print("----------------------------------")
             pizza_toppings_choice()
             view_or_change_order()
+            break
         elif choice == "2":
             food = "Medium Pizza"
             price = "$8"
@@ -206,6 +171,7 @@ def menu():
             print("----------------------------------")
             pizza_toppings_choice()
             view_or_change_order()
+            break
         elif choice == "3":
             food = "Large Pizza"
             price = "$10"
@@ -227,60 +193,6 @@ def menu():
         else:
             print("Invalid choice!")
             continue    
-
-
-def menu_on_update(): 
-    global order_name
-    global order_food
-    global food_update
-    global price
-    while True:
-        print("-----------------------------------")
-        print("0. Exit")
-        for x in enumerate(food_items()):
-            print(f"{x[0]+1}. {x[1][0]} - {x[1][1]}")
-        choice = str(input("What would you like to order?: "))
-        order_food += choice
-        if choice == "0":
-            print("You have exited the menu. Goodbye!")
-            break
-        if choice == "1":
-            food_update = "Small Pizza"
-            price = "$6"
-            print("----------------------------------")
-            print("You chose a small Pizza!")
-            print("----------------------------------")
-            pizza_toppings_choice_on_update()
-            view_or_change_order()
-        elif choice == "2":
-            food_update = "Medium Pizza"
-            price = "$8"
-            print("----------------------------------")
-            print("You chose a Medium Pizza!")
-            print("----------------------------------")
-            pizza_toppings_choice_on_update()
-            view_or_change_order()
-        elif choice == "3":
-            food_update = "Large Pizza"
-            price = "$10"
-            print("----------------------------------")
-            print("You chose Large Pizza!")
-            print("----------------------------------")
-            pizza_toppings_choice()
-            view_or_change_order()
-        elif choice == "4": 
-            food_update = "Cheeseburger"
-            price = "$8"
-            print("You chose Cheeseburger!")
-            burger_toppings()
-            view_or_change_order()
-        elif choice == "5":
-            print("You chose Loaded Fries!")
-        elif choice == "6":
-            print("You chose a Club Sandwich")
-        else:
-            print("Invalid choice!")
-            continue
 
 
 def main():

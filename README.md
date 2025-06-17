@@ -1,15 +1,2 @@
-This is an example Python project used in Codeanywhere.
+### Hi! Thank you for checking out my project. This is a sample Python and SQL project that I created to practice my skills and further my knowledge in OOP. I created a menu for a restaurant using python functions and SQLite for a database. You have the ability to add a name, a food item, and change the order after placing it. I'm still currently working on other features that give the user more freedom with their order and prices. I also plan on adding a feature that allows the user to delete their order and start over if they cahnge their mind. 
 
-[Try it out](https://app.codeanywhere.com/#https://github.com/Codeanywhere-Templates/python)
-
-### Running the project
-
-Open the terminal and run:
-```sh
-cd test-project
-python -u hello.py
-```
-Or just press the *Run Code* button found in the top right of the editor panel.
-### Want to contribute?
-
-Feel free to [open a PR](https://github.com/Codeanywhere-Templates/python) with any suggestions for this test project 😃 
